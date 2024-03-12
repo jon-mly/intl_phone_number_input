@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl_phone_number_input/src/models/country_list.dart';
@@ -8,19 +9,11 @@ import 'package:intl_phone_number_input/src/providers/country_provider.dart';
 import 'package:intl_phone_number_input/src/utils/formatter/as_you_type_formatter.dart';
 import 'package:intl_phone_number_input/src/utils/phone_number.dart';
 import 'package:intl_phone_number_input/src/utils/phone_number/phone_number_util.dart';
-import 'package:intl_phone_number_input/src/utils/selector_config.dart';
+import 'package:intl_phone_number_input/src/utils/dropdown_decoration.dart';
 import 'package:intl_phone_number_input/src/utils/test/test_helper.dart';
 import 'package:intl_phone_number_input/src/utils/util.dart';
 import 'package:intl_phone_number_input/src/utils/widget_view.dart';
-import 'package:intl_phone_number_input/src/widgets/selector_button.dart';
-
-/// Enum for [SelectorButton] types.
-///
-/// Available type includes:
-///   * [PhoneInputSelectorType.DROPDOWN]
-///   * [PhoneInputSelectorType.BOTTOM_SHEET]
-///   * [PhoneInputSelectorType.DIALOG]
-enum PhoneInputSelectorType { DROPDOWN, BOTTOM_SHEET, DIALOG }
+import 'package:intl_phone_number_input/src/widgets/dropdown.dart';
 
 /// A [TextFormField] for [InternationalPhoneNumberInput].
 ///
@@ -36,7 +29,7 @@ enum PhoneInputSelectorType { DROPDOWN, BOTTOM_SHEET, DIALOG }
 /// [countries] accepts list of string on Country isoCode, if specified filters
 /// available countries to match the [countries] specified.
 class InternationalPhoneNumberInput extends StatefulWidget {
-  final SelectorConfig selectorConfig;
+  final DropdownDecoration selectorConfig;
 
   final ValueChanged<PhoneNumber>? onInputChanged;
   final ValueChanged<bool>? onInputValidated;
@@ -72,7 +65,7 @@ class InternationalPhoneNumberInput extends StatefulWidget {
   final String? locale;
 
   final TextStyle? textStyle;
-  final TextStyle? selectorTextStyle;
+  final TextStyle? dropdownTextStyle;
   final InputBorder? inputBorder;
   final InputDecoration? inputDecoration;
   final InputDecoration? searchBoxDecoration;
@@ -88,7 +81,7 @@ class InternationalPhoneNumberInput extends StatefulWidget {
 
   InternationalPhoneNumberInput(
       {Key? key,
-      this.selectorConfig = const SelectorConfig(),
+      this.selectorConfig = const DropdownDecoration(),
       required this.onInputChanged,
       this.onInputValidated,
       this.onSubmit,
@@ -114,7 +107,7 @@ class InternationalPhoneNumberInput extends StatefulWidget {
       this.countrySelectorScrollControlled = true,
       this.locale,
       this.textStyle,
-      this.selectorTextStyle,
+      this.dropdownTextStyle,
       this.inputBorder,
       this.inputDecoration,
       this.searchBoxDecoration,
@@ -206,13 +199,10 @@ class _InputWidgetState extends State<InternationalPhoneNumberInput> {
           );
 
       // Remove potential duplicates
-      countries = countries.toSet().toList();
-
-      final CountryComparator? countryComparator =
-          widget.selectorConfig.countryComparator;
-      if (countryComparator != null) {
-        countries.sort(countryComparator);
-      }
+      countries = countries
+          .toSet()
+          .sorted((c1, c2) => (c1.name?.compareTo(c2.name ?? "") ?? 0))
+          .toList();
 
       setState(() {
         this.countries = countries;
@@ -292,18 +282,19 @@ class _InputWidgetState extends State<InternationalPhoneNumberInput> {
 
     if (widget.selectorConfig.setSelectorButtonAsPrefixIcon) {
       return value.copyWith(
-          prefixIcon: SelectorButton(
-        country: country,
-        countries: countries,
-        onCountryChanged: onCountryChanged,
-        selectorConfig: widget.selectorConfig,
-        selectorTextStyle: widget.selectorTextStyle,
-        searchBoxDecoration: widget.searchBoxDecoration,
-        locale: locale,
-        isEnabled: widget.isEnabled,
-        autoFocusSearchField: widget.autoFocusSearch,
-        isScrollControlled: widget.countrySelectorScrollControlled,
-      ));
+        prefixIcon: Dropdown(
+          country: country,
+          countries: countries,
+          onCountryChanged: onCountryChanged,
+          dropdownDecoration: widget.selectorConfig,
+          selectorTextStyle: widget.dropdownTextStyle,
+          searchBoxDecoration: widget.searchBoxDecoration,
+          locale: locale,
+          isEnabled: widget.isEnabled,
+          autoFocusSearchField: widget.autoFocusSearch,
+          isScrollControlled: widget.countrySelectorScrollControlled,
+        ),
+      );
     }
 
     return value;
@@ -399,12 +390,12 @@ class _InputWidgetView
             Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                SelectorButton(
+                Dropdown(
                   country: state.country,
                   countries: state.countries,
                   onCountryChanged: state.onCountryChanged,
-                  selectorConfig: widget.selectorConfig,
-                  selectorTextStyle: widget.selectorTextStyle,
+                  dropdownDecoration: widget.selectorConfig,
+                  selectorTextStyle: widget.dropdownTextStyle,
                   searchBoxDecoration: widget.searchBoxDecoration,
                   locale: state.locale,
                   isEnabled: widget.isEnabled,

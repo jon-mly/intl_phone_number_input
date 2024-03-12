@@ -11,6 +11,7 @@ class Item extends StatelessWidget {
   final bool withCountryNames;
   final double? leadingPadding;
   final bool trailingSpace;
+  final double? paddingFlagDialCode;
 
   const Item({
     Key? key,
@@ -21,6 +22,7 @@ class Item extends StatelessWidget {
     this.withCountryNames = false,
     this.leadingPadding = 12,
     this.trailingSpace = true,
+    this.paddingFlagDialCode = 12,
   }) : super(key: key);
 
   @override
@@ -40,7 +42,7 @@ class Item extends StatelessWidget {
             showFlag: showFlag,
             useEmoji: useEmoji,
           ),
-          SizedBox(width: 12.0),
+          SizedBox(width: paddingFlagDialCode),
           Text(
             '$dialCode',
             textDirection: TextDirection.ltr,

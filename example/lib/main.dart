@@ -50,13 +50,10 @@ class _MyHomePageState extends State<MyHomePage> {
               onInputValidated: (bool value) {
                 print(value);
               },
-              selectorConfig: SelectorConfig(
-                selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
-                useBottomSheetSafeArea: true,
-              ),
+              selectorConfig: DropdownDecoration(),
               ignoreBlank: false,
               autoValidateMode: AutovalidateMode.disabled,
-              selectorTextStyle: TextStyle(color: Colors.black),
+              dropdownTextStyle: TextStyle(color: Colors.black),
               initialValue: number,
               textFieldController: controller,
               formatInput: true,
