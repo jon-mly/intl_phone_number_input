@@ -50,6 +50,7 @@ class Dropdown extends StatelessWidget {
               value: country,
               items: mapCountryToDropdownItem(countries),
               onChanged: isEnabled ? onCountryChanged : null,
+              dropdownColor: dropdownDecoration.dropdownBackgroundColor,
               borderRadius: dropdownDecoration.dropdownBorderRadius != null
                   ? BorderRadius.circular(
                       dropdownDecoration.dropdownBorderRadius!)
