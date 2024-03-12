@@ -201,7 +201,8 @@ class _InputWidgetState extends State<InternationalPhoneNumberInput> {
       // Remove potential duplicates
       countries = countries
           .toSet()
-          .sorted((c1, c2) => (c1.name?.compareTo(c2.name ?? "") ?? 0))
+          .sorted((c1, c2) =>
+              int.parse(c1.dialCode ?? "0") - int.parse(c2.dialCode ?? "0"))
           .toList();
 
       setState(() {
