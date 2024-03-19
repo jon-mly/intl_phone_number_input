@@ -18,8 +18,8 @@ class DropdownDecoration {
   /// Space between the flag and the dial code
   final double? paddingFlagDialCode;
 
-  /// Add white space for short dial code
-  final bool trailingSpace;
+  /// Space between the dial code and the dropdown arrow
+  final double? trailingPadding;
 
   /// Background color of the dropdown selector
   final Color? dropdownBackgroundColor;
@@ -33,7 +33,7 @@ class DropdownDecoration {
     this.setSelectorButtonAsPrefixIcon = false,
     this.leadingPadding,
     this.paddingFlagDialCode,
-    this.trailingSpace = true,
+    this.trailingPadding,
     this.dropdownBackgroundColor,
     this.dropdownBorderRadius,
   });

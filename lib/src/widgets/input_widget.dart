@@ -57,10 +57,8 @@ class InternationalPhoneNumberInput extends StatefulWidget {
   final bool isEnabled;
   final bool formatInput;
   final bool autoFocus;
-  final bool autoFocusSearch;
   final AutovalidateMode autoValidateMode;
   final bool ignoreBlank;
-  final bool countrySelectorScrollControlled;
 
   final String? locale;
 
@@ -68,7 +66,6 @@ class InternationalPhoneNumberInput extends StatefulWidget {
   final TextStyle? dropdownTextStyle;
   final InputBorder? inputBorder;
   final InputDecoration? inputDecoration;
-  final InputDecoration? searchBoxDecoration;
   final Color? cursorColor;
   final TextAlign textAlign;
   final TextAlignVertical textAlignVertical;
@@ -101,16 +98,13 @@ class InternationalPhoneNumberInput extends StatefulWidget {
       this.isEnabled = true,
       this.formatInput = true,
       this.autoFocus = false,
-      this.autoFocusSearch = false,
       this.autoValidateMode = AutovalidateMode.disabled,
       this.ignoreBlank = false,
-      this.countrySelectorScrollControlled = true,
       this.locale,
       this.textStyle,
       this.dropdownTextStyle,
       this.inputBorder,
       this.inputDecoration,
-      this.searchBoxDecoration,
       this.textAlign = TextAlign.start,
       this.textAlignVertical = TextAlignVertical.center,
       this.scrollPadding = const EdgeInsets.all(20.0),
@@ -289,11 +283,8 @@ class _InputWidgetState extends State<InternationalPhoneNumberInput> {
           onCountryChanged: onCountryChanged,
           dropdownDecoration: widget.selectorConfig,
           selectorTextStyle: widget.dropdownTextStyle,
-          searchBoxDecoration: widget.searchBoxDecoration,
           locale: locale,
           isEnabled: widget.isEnabled,
-          autoFocusSearchField: widget.autoFocusSearch,
-          isScrollControlled: widget.countrySelectorScrollControlled,
         ),
       );
     }
@@ -397,11 +388,8 @@ class _InputWidgetView
                   onCountryChanged: state.onCountryChanged,
                   dropdownDecoration: widget.selectorConfig,
                   selectorTextStyle: widget.dropdownTextStyle,
-                  searchBoxDecoration: widget.searchBoxDecoration,
                   locale: state.locale,
                   isEnabled: widget.isEnabled,
-                  autoFocusSearchField: widget.autoFocusSearch,
-                  isScrollControlled: widget.countrySelectorScrollControlled,
                 ),
                 SizedBox(
                   height: state.selectorButtonBottomPadding,

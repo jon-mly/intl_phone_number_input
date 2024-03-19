@@ -10,7 +10,7 @@ class Item extends StatelessWidget {
   final TextStyle? textStyle;
   final bool withCountryNames;
   final double? leadingPadding;
-  final bool trailingSpace;
+  final double? trailingPadding;
   final double? paddingFlagDialCode;
 
   const Item({
@@ -21,16 +21,13 @@ class Item extends StatelessWidget {
     this.textStyle,
     this.withCountryNames = false,
     this.leadingPadding = 12,
-    this.trailingSpace = true,
+    this.trailingPadding = 12,
     this.paddingFlagDialCode = 12,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     String dialCode = (country?.dialCode ?? '');
-    if (trailingSpace) {
-      dialCode = dialCode.padRight(5, "   ");
-    }
     return Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -48,6 +45,7 @@ class Item extends StatelessWidget {
             textDirection: TextDirection.ltr,
             style: textStyle,
           ),
+          SizedBox(width: trailingPadding),
         ],
       ),
     );
@@ -75,6 +73,7 @@ class _Flag extends StatelessWidget {
                     country!.flagUri,
                     width: 32.0,
                     package: 'intl_phone_number_input',
+                    filterQuality: FilterQuality.none,
                     errorBuilder: (context, error, stackTrace) {
                       return SizedBox.shrink();
                     },
